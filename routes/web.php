@@ -17,6 +17,24 @@ use App\Http\Controllers\User\CartController;
 |
 */
 
+Route::get('loadimg/',function(){
+//	$img = file_get_contents("https://laravel-test-okumura.s3.ap-northeast-1.amazonaws.com/127852.png");
+	$s3 = Storage::disk('s3');
+//	$data = $disk->get('127852.png');
+   $path='127852.png';
+	        $mimeType = $s3->mimeType($path);
+
+        // コンテンツを取得
+        $content = $s3->get($path);
+
+        // イメージとしてリターン
+	return response($content)->header('Content-type', $mimeType);
+
+	//	dd($data);
+	//	return response()->$data;
+//	return response()->file("https://laravel-test-okumura.s3.ap-northeast-1.amazonaws.com/127852.png");
+});
+
 Route::get('/', function () {
     return view('user.welcome');
 });
